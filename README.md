@@ -5,6 +5,8 @@
 ```
 - vue-decorator
 - vuetify
+- vue-router
+- vuex
 ```
 
 ## Project setup

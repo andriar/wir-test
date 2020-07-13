@@ -47,7 +47,7 @@
             <img src="../assets/user.png" alt="User" />
           </div>
           <div>
-            <div>Nama</div>
+            <div>Name</div>
             <div>: {{ user.name }}</div>
           </div>
           <div>
