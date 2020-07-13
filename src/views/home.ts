@@ -8,6 +8,7 @@ import { Component } from "vue-property-decorator";
 })
 export default class Home extends Vue {
   isOpen = false;
+  keyword = "";
   user: any = {
     name: "",
   };
@@ -20,22 +21,24 @@ export default class Home extends Vue {
     return UserModule.isLoading;
   }
 
-  get keyword() {
-    return "";
-  }
-
   mounted() {
     this.setInitData();
+    // this.finduser();
   }
 
   async setInitData() {
     UserModule.fetchUser();
   }
 
+  finduser() {
+    UserModule.findUser(this.keyword);
+  }
+
   userSelected(user: any) {
     this.isOpen = true;
     this.user = user;
   }
+
   close() {
     this.isOpen = false;
   }

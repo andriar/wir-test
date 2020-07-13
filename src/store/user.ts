@@ -11,7 +11,7 @@ import axios from "axios";
 @Module({ dynamic: true, store, name: "user" })
 class User extends VuexModule {
   isLoading = false;
-  users = {};
+  users = [];
 
   @Action
   async fetchUser() {
@@ -31,13 +31,29 @@ class User extends VuexModule {
     }
   }
 
+  @Action
+  findUser(keyword: any) {
+    try {
+      this.SET_LOADING(true);
+      const filterNames = this.users.filter(
+        (el: any) => el.name.charAt(0) === keyword
+      );
+
+      this.SET_USERS(filterNames);
+    } catch (error) {
+      console.info(error);
+    } finally {
+      this.SET_LOADING(false);
+    }
+  }
+
   @Mutation
   SET_LOADING(bool: boolean) {
     this.isLoading = bool;
   }
 
   @Mutation
-  SET_USERS(data: any[]) {
+  SET_USERS(data: any) {
     this.users = data;
   }
 }

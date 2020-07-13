@@ -3,7 +3,7 @@
     <div class="header-text">Contact List</div>
     <div class="search-container">
       <img src="../assets/search.png" alt="Search" />
-      <input placeholder="Cari ..." :value="keyword" />
+      <input placeholder="Cari ..." v-model="keyword" @change="finduser()" />
     </div>
     <table style="width:100%">
       <thead>
