@@ -1,16 +1,10 @@
-const axios = require("axios");
+// const axios = require("axios");
+import axios from "axios";
 
-// Make a request for a user with a given ID
-axios
-  .get("https://jsonplaceholder.typicode.com/users")
-  .then(function(response: any) {
-    // handle success
-    console.log(response);
-  })
-  .catch(function(error: any) {
-    // handle error
-    console.log(error);
-  })
-  .finally(function() {
-    // always executed
+export const fetch = () => {
+  return axios({
+    method: "get",
+    url: "https://jsonplaceholder.typicode.com/users",
+    timeout: 4000, // 4 seconds timeout
   });
+};

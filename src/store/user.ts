@@ -7,6 +7,7 @@ import {
   VuexModule,
 } from "vuex-module-decorators";
 import axios from "axios";
+import { fetch } from "@/helper/api";
 
 @Module({ dynamic: true, store, name: "user" })
 class User extends VuexModule {
@@ -17,11 +18,7 @@ class User extends VuexModule {
   async fetchUser() {
     try {
       this.SET_LOADING(true);
-      const res = await axios({
-        method: "get",
-        url: "https://jsonplaceholder.typicode.com/users",
-        timeout: 4000, // 4 seconds timeout
-      });
+      const res = await fetch();
 
       this.SET_USERS(res.data);
     } catch (error) {
