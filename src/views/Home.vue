@@ -1,11 +1,9 @@
 <template>
   <div class="home">
-    <!-- <img alt="Vue logo" src="../assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />-->
     <div class="header-text">Contact List</div>
     <div class="search-container">
       <img src="../assets/search.png" alt="Search" />
-      <input placeholder="Cari ..." :value="keyword" @submit="findUser()" />
+      <input placeholder="Cari ..." :value="keyword" />
     </div>
     <table style="width:100%">
       <thead>
@@ -19,7 +17,12 @@
           <td colspan="4">Loading</td>
         </tr>
       </tbody>
-      <tbody v-if="!isLoading">
+      <tbody v-if="!isLoading && users.length <= 0">
+        <tr class="loading">
+          <td colspan="4">No Data</td>
+        </tr>
+      </tbody>
+      <tbody v-if="!isLoading && users.length > 0">
         <tr class="user" v-for="(user, index) in users" :key="index">
           <td>{{ index + 1 }}</td>
           <td>{{ user.name }}</td>
@@ -31,86 +34,42 @@
       </tbody>
     </table>
 
-    <div class="modal">
-      <div class="modal-header">
-        <div class="title">Detail user</div>
-        <button class="btn-close" @click="close()">
-          <img src="../assets/close.png" alt="Italian Trulli" />
-        </button>
+    <v-dialog v-model="isOpen" width="500">
+      <div class="modal">
+        <div class="modal-header">
+          <div class="title">Detail user</div>
+          <button class="btn-close" @click="close()">
+            <img src="../assets/close.png" alt="Close" />
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="image-container">
+            <img src="../assets/user.png" alt="User" />
+          </div>
+          <div>
+            <div>Nama</div>
+            <div>: {{ user.name }}</div>
+          </div>
+          <div>
+            <div>Email</div>
+            <div>: {{ user.email }}</div>
+          </div>
+          <div>
+            <div>Phone</div>
+            <div>: {{ user.phone }}</div>
+          </div>
+          <div>
+            <div>Website</div>
+            <div>: {{ user.website }}</div>
+          </div>
+        </div>
       </div>
-      <div class="modal-body">
-        <div class="image-container">
-          <img src="../assets/user.png" alt="Italian Trulli" />
-        </div>
-        <div>
-          <div>Nama</div>
-          <div>: {{ user.name }}</div>
-        </div>
-        <div>
-          <div>Email</div>
-          <div>: {{ user.email }}</div>
-        </div>
-        <div>
-          <div>Phone</div>
-          <div>: {{ user.phone }}</div>
-        </div>
-        <div>
-          <div>Website</div>
-          <div>: {{ user.website }}</div>
-        </div>
-      </div>
-    </div>
+    </v-dialog>
   </div>
 </template>
 
-<script>
-// @ is an alias to /src
-import axios from "axios";
-export default {
-  name: "Home",
-  components: {},
-  data: () => {
-    return {
-      isOpen: false,
-      isLoading: false,
-      users: [],
-      user: {},
-      keyword: "",
-    };
-  },
-  computed: {
-    findUsers: function() {
-      return this.users.filter((el) => el.name === this.keyword);
-    },
-  },
-  mounted() {
-    this.findUser();
-  },
-  methods: {
-    findUser() {
-      this.isLoading = true;
-      axios({
-        method: "get",
-        url: "https://jsonplaceholder.typicode.com/users",
-        timeout: 4000, // 4 seconds timeout
-      })
-        .then((response) => {
-          /* handle the response */
-          this.users = response.data;
-        })
-        .catch((error) => console.error("timeout exceeded"))
-        .finally(() => (this.isLoading = false));
-    },
-    userSelected(user) {
-      this.isOpen = true;
-      this.user = user;
-    },
-    close() {
-      this.isOpen = false;
-    },
-  },
-};
-</script>
+<script lang="ts" src="./home.ts" />
+
 <style lang="scss">
 .header-text {
   font-size: 24px;
@@ -143,7 +102,7 @@ export default {
 }
 
 .search-container img {
-  width: 15px;
+  width: 25px;
   height: 15px;
   padding-right: 5px;
   padding-left: 5px;
@@ -251,7 +210,7 @@ tbody th {
 }
 .image-container img {
   width: 100px;
-  height: 100px;
+  height: 190px;
   padding-top: 50px;
   padding-bottom: 50px;
 }
